@@ -1,5 +1,6 @@
 #include "ValidateExpressionThread.h"
 #include <windows.h>
+#include "QDebug"
 
 ValidateExpressionThread::ValidateExpressionThread(QObject* parent) : QThread(parent), mExpressionChanged(false), mStopThread(false)
 {

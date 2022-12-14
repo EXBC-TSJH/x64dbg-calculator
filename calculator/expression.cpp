@@ -45,6 +45,10 @@ bool calculate(stack<duint> &nums, stack<char> &symbols)
     char oper = symbols.top();
     symbols.pop();
 
+    //否则会崩溃
+    if(b == 0 && (oper == '/' || oper == '%'))
+        return false;
+
     if (oper == '+')
         nums.push(a + b);
     else if (oper == '-')

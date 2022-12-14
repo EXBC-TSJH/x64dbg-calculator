@@ -77,6 +77,12 @@ CalculatorDialog::~CalculatorDialog()
 
 void CalculatorDialog::validateExpression(QString expression)
 {
+    if(expression == "")
+    {
+        this->mValidateThread->emitExpressionChanged(true, true, 0);
+        return;
+    }
+
     duint value = expression_calculation(std::string(expression.toUtf8().constData()));
 
     if(*get_err() != 0)
@@ -120,12 +126,12 @@ void CalculatorDialog::expressionChanged(bool validExpression, bool validPointer
         ui->txtAscii->setText("");
         ui->txtUnicode->setText("");
 
-        ui->txtExpression->setStyleSheet("border: 2px solid red");
+        ui->txtExpression->setStyleSheet("border: 2px solid red;background-color: rgb(49, 49, 49);");
         emit validAddress(false);
     }
     else
     {
-        ui->txtExpression->setStyleSheet("");
+        ui->txtExpression->setStyleSheet("background-color: rgb(49, 49, 49);");
         ui->txtHex->setText(inFormat(value, Format::Hex));
         ui->txtSignedDec->setText(inFormat(value, Format::SignedDec));
         ui->txtUnsignedDec->setText(inFormat(value, Format::UnsignedDec));
@@ -179,14 +185,14 @@ void CalculatorDialog::expressionChanged(bool validExpression, bool validPointer
 void CalculatorDialog::on_txtExpression_textChanged(const QString & arg1)
 {
     Q_UNUSED(arg1);
-    ui->txtHex->setStyleSheet("");
-    ui->txtSignedDec->setStyleSheet("");
-    ui->txtUnsignedDec->setStyleSheet("");
-    ui->txtOct->setStyleSheet("");
-    ui->txtBytes->setStyleSheet("");
-    ui->txtBin->setStyleSheet("");
-    ui->txtAscii->setStyleSheet("");
-    ui->txtUnicode->setStyleSheet("");
+    ui->txtHex->setStyleSheet("background-color: rgb(49, 49, 49);");
+    ui->txtSignedDec->setStyleSheet("background-color: rgb(49, 49, 49);");
+    ui->txtUnsignedDec->setStyleSheet("background-color: rgb(49, 49, 49);");
+    ui->txtOct->setStyleSheet("background-color: rgb(49, 49, 49);");
+    ui->txtBytes->setStyleSheet("background-color: rgb(49, 49, 49);");
+    ui->txtBin->setStyleSheet("background-color: rgb(49, 49, 49);");
+    ui->txtAscii->setStyleSheet("background-color: rgb(49, 49, 49);");
+    ui->txtUnicode->setStyleSheet("background-color: rgb(49, 49, 49);");
     emit validAddress(false);
 }
 
@@ -196,11 +202,11 @@ void CalculatorDialog::on_txtHex_textEdited(const QString & arg1)
     ULONGLONG val = arg1.toULongLong(&ok, 16);
     if(!ok)
     {
-        ui->txtHex->setStyleSheet("border: 2px solid red");
+        ui->txtHex->setStyleSheet("border: 2px solid red;background-color: rgb(49, 49, 49);");
         return;
     }
-    ui->txtHex->setStyleSheet("");
-    ui->txtExpression->setText(QString("%1").arg(val, 1, 16, QChar('0')).toUpper());
+    ui->txtHex->setStyleSheet("background-color: rgb(49, 49, 49);");
+    ui->txtExpression->setText(QString("%1").arg(val, 1, 10, QChar('0')).toUpper());
 }
 
 void CalculatorDialog::on_txtSignedDec_textEdited(const QString & arg1)
@@ -209,11 +215,11 @@ void CalculatorDialog::on_txtSignedDec_textEdited(const QString & arg1)
     LONGLONG val = arg1.toLongLong(&ok, 10);
     if(!ok)
     {
-        ui->txtUnsignedDec->setStyleSheet("border: 2px solid red");
+        ui->txtUnsignedDec->setStyleSheet("border: 2px solid red;background-color: rgb(49, 49, 49);");
         return;
     }
-    ui->txtUnsignedDec->setStyleSheet("");
-    ui->txtExpression->setText(QString("%1").arg(val, 1, 16, QChar('0')).toUpper());
+    ui->txtUnsignedDec->setStyleSheet("background-color: rgb(49, 49, 49);");
+    ui->txtExpression->setText(QString("%1").arg(val, 1, 10, QChar('0')).toUpper());
 }
 
 void CalculatorDialog::on_txtUnsignedDec_textEdited(const QString & arg1)
@@ -222,11 +228,11 @@ void CalculatorDialog::on_txtUnsignedDec_textEdited(const QString & arg1)
     LONGLONG val = arg1.toULongLong(&ok, 10);
     if(!ok)
     {
-        ui->txtUnsignedDec->setStyleSheet("border: 2px solid red");
+        ui->txtUnsignedDec->setStyleSheet("border: 2px solid red;background-color: rgb(49, 49, 49);");
         return;
     }
-    ui->txtUnsignedDec->setStyleSheet("");
-    ui->txtExpression->setText(QString("%1").arg(val, 1, 16, QChar('0')).toUpper());
+    ui->txtUnsignedDec->setStyleSheet("background-color: rgb(49, 49, 49);");
+    ui->txtExpression->setText(QString("%1").arg(val, 1, 10, QChar('0')).toUpper());
 }
 
 void CalculatorDialog::on_txtOct_textEdited(const QString & arg1)
@@ -235,11 +241,11 @@ void CalculatorDialog::on_txtOct_textEdited(const QString & arg1)
     ULONGLONG val = arg1.toULongLong(&ok, 8);
     if(!ok)
     {
-        ui->txtOct->setStyleSheet("border: 2px solid red");
+        ui->txtOct->setStyleSheet("border: 2px solid red;background-color: rgb(49, 49, 49);");
         return;
     }
-    ui->txtOct->setStyleSheet("");
-    ui->txtExpression->setText(QString("%1").arg(val, 1, 16, QChar('0')).toUpper());
+    ui->txtOct->setStyleSheet("background-color: rgb(49, 49, 49);");
+    ui->txtExpression->setText(QString("%1").arg(val, 1, 10, QChar('0')).toUpper());
 }
 
 void CalculatorDialog::on_txtBytes_textEdited(const QString & arg1)
@@ -250,11 +256,11 @@ void CalculatorDialog::on_txtBytes_textEdited(const QString & arg1)
     ULONGLONG val = text.toULongLong(&ok, 16);
     if(!ok)
     {
-        ui->txtBytes->setStyleSheet("border: 2px solid red");
+        ui->txtBytes->setStyleSheet("border: 2px solid red;background-color: rgb(49, 49, 49);");
         return;
     }
-    ui->txtBytes->setStyleSheet("");
-    ui->txtExpression->setText(QString("%1").arg(bswap(val), 1, 16, QChar('0')).toUpper());
+    ui->txtBytes->setStyleSheet("background-color: rgb(49, 49, 49);");
+    ui->txtExpression->setText(QString("%1").arg(bswap(val), 1, 10, QChar('0')).toUpper());
 }
 
 void CalculatorDialog::on_txtBin_textEdited(const QString & arg1)
@@ -265,17 +271,17 @@ void CalculatorDialog::on_txtBin_textEdited(const QString & arg1)
     ULONGLONG val = text.toULongLong(&ok, 2);
     if(!ok)
     {
-        ui->txtBin->setStyleSheet("border: 2px solid red");
+        ui->txtBin->setStyleSheet("border: 2px solid red;background-color: rgb(49, 49, 49);");
         return;
     }
-    ui->txtBin->setStyleSheet("");
-    ui->txtExpression->setText(QString("%1").arg(val, 1, 16, QChar('0')).toUpper());
+    ui->txtBin->setStyleSheet("background-color: rgb(49, 49, 49);");
+    ui->txtExpression->setText(QString("%1").arg(val, 1, 10, QChar('0')).toUpper());
 }
 
 void CalculatorDialog::on_txtAscii_textEdited(const QString & arg1)
 {
     QString text = arg1;
-    ui->txtAscii->setStyleSheet("");
+    ui->txtAscii->setStyleSheet("background-color: rgb(49, 49, 49);");
     ui->txtExpression->setText(QString().asprintf("%X", text[0].unicode()));
     ui->txtAscii->setCursorPosition(0);
     ui->txtAscii->selectAll();
@@ -284,7 +290,7 @@ void CalculatorDialog::on_txtAscii_textEdited(const QString & arg1)
 void CalculatorDialog::on_txtUnicode_textEdited(const QString & arg1)
 {
     QString text = arg1;
-    ui->txtUnicode->setStyleSheet("");
+    ui->txtUnicode->setStyleSheet("background-color: rgb(49, 49, 49);");
     ui->txtExpression->setText(QString().asprintf("%X", text[0].unicode()));
     ui->txtUnicode->setCursorPosition(0);
     ui->txtUnicode->selectAll();
